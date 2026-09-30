@@ -1,0 +1,12 @@
+.wrap {
+    max-width: 28rem;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+}
+
+.help {
+    color: var(--lwc-colorTextWeak, #706e6b);
+}

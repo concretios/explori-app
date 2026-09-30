@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtlClntAppCanvasSettings xmlns="http://soap.sforce.com/2006/04/metadata">
+    <accessMethod>Post</accessMethod>
+    <canvasLocationOptions>Aura</canvasLocationOptions>
+    <canvasUrl>https://si.staging.explori.com/</canvasUrl>
+    <externalClientApplication>Explori_Sales_Intelligence</externalClientApplication>
+    <label>Explori_Sales_Intelligence_canvasSettings</label>
+    <lifeCycleHandler>ExploriCanvasLifecycleHandlerPost</lifeCycleHandler>
+    <samlInitiationMethod>None</samlInitiationMethod>
+</ExtlClntAppCanvasSettings>

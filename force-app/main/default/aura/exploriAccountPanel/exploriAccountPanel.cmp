@@ -1,0 +1,25 @@
+<!--
+  @description       : 
+  @author            : Mayank Singh
+  @group             : 
+  @last modified on  : 09-28-2026
+  @last modified by  : Mayank Singh
+-->
+<aura:component
+    implements="flexipage:availableForRecordHome,force:hasRecordId"
+    access="global">
+
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="displayDensity" type="String" default="sidebar"/>
+    <aura:attribute name="canvasParams" type="String" default="{}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <force:canvasApp
+        developerName="Explori_Sales_Intelligence"
+        width="100%"
+        height="640px"
+        border="false"
+        scrolling="true"
+        parameters="{!v.canvasParams}"/>
+</aura:component>
