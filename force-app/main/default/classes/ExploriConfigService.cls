@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : Mayank Singh
+ * @group             : 
+ * @last modified on  : 10-01-2026
+ * @last modified by  : Mayank Singh
+**/
 public with sharing class ExploriConfigService {
     private ExploriConfigService() {}
 
@@ -34,7 +41,13 @@ public with sharing class ExploriConfigService {
         }
         row.Share_Id__c = shareId;
         row.Product_Id__c = productId;
-
+		
+        /*
+         * SYSTEM_MODE is intentional.
+         * Access is controlled by the Explori_Manage_Config custom permission above.
+         * Users with this permission may not have write access to the protected
+         * List Custom Setting, so SYSTEM_MODE is required to persist the configuration.
+         */
         Database.UpsertResult result =
             Database.upsert(row, Explori_Config_List__c.Name, false, AccessLevel.SYSTEM_MODE);
         if (!result.isSuccess()) {

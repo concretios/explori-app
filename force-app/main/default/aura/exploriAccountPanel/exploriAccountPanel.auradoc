@@ -1,6 +1,3 @@
 <aura:documentation>
-	<aura:description>Documentation</aura:description>
-	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
-		Example Description
-	</aura:example>
+    <aura:description>Account record page host for the Explori Sales Intelligence Canvas app. Sends the current record Id only. Share ID and Product ID are added by the Canvas lifecycle handler.</aura:description>
 </aura:documentation>

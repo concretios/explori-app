@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : Mayank Singh
+ * @group             : 
+ * @last modified on  : 10-01-2026
+ * @last modified by  : Mayank Singh
+**/
 public with sharing class ExploriSetupController {
     public class SetupState {
         @AuraEnabled public Boolean configured;
@@ -19,6 +26,8 @@ public with sharing class ExploriSetupController {
         } catch (ExploriException ex) {
             throw handled(ex.getMessage());
         } catch (Exception ex) {
+            // Log the platform error for debugging while returning a safe message to the client.
+            System.debug(LoggingLevel.ERROR, 'Explori saveConfig failed: ' + ex.getMessage());
             throw handled('Unable to save Explori configuration.');
         }
         return currentState();
@@ -27,6 +36,7 @@ public with sharing class ExploriSetupController {
     private static SetupState currentState() {
         SetupState state = new SetupState();
         state.configured = ExploriConfigService.hasShareId();
+        // Share ID is never returned to the client. Only the configured flag and non-sensitive product ID are exposed.
         state.productId = ExploriConfigService.getProductId();
         state.organizationId = UserInfo.getOrganizationId();
         return state;
