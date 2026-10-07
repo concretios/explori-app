@@ -2,16 +2,16 @@
  * @description       : 
  * @author            : Mayank Singh
  * @group             : 
- * @last modified on  : 09-30-2026
+ * @last modified on  : 10-06-2026
  * @last modified by  : Mayank Singh
 **/
 import { LightningElement, wire } from "lwc";
 import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import getSetupState from "@salesforce/apex/ExploriSetupController.getSetupState";
-import saveConfig from "@salesforce/apex/ExploriSetupController.saveConfig";
+import getSetupState from "@salesforce/apex/SetupController.getSetupState";
+import saveConfig from "@salesforce/apex/SetupController.saveConfig";
 
-export default class ExploriSetup extends LightningElement {
+export default class Setup extends LightningElement {
     shareId = "";
     productId = "";
     configured = false;

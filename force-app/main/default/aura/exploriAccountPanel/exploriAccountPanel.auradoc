@@ -1,3 +1,3 @@
 <aura:documentation>
-    <aura:description>Account record page host for the Explori Sales Intelligence Canvas app. Sends the current record Id only. Share ID and Product ID are added by the Canvas lifecycle handler.</aura:description>
+    <aura:description>Account record page host that embeds the Explori Sales Intelligence Canvas app for sales users and sends only the current record Id, leaving the Canvas lifecycle handler to add the Share ID and Product ID.</aura:description>
 </aura:documentation>

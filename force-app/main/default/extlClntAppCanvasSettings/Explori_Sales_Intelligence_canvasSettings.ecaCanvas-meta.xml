@@ -5,6 +5,6 @@
     <canvasUrl>https://si.staging.explori.com/</canvasUrl>
     <externalClientApplication>Explori_Sales_Intelligence</externalClientApplication>
     <label>Explori_Sales_Intelligence_canvasSettings</label>
-    <lifeCycleHandler>ExploriCanvasLifecycleHandlerPost</lifeCycleHandler>
+    <lifeCycleHandler>CanvasLifecycleHandlerPost</lifeCycleHandler>
     <samlInitiationMethod>None</samlInitiationMethod>
 </ExtlClntAppCanvasSettings>

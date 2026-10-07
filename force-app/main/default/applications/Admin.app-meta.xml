@@ -4,6 +4,7 @@
         <headerColor>#0070D2</headerColor>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
+    <description>Lightning app that gives Explori administrators access to the Explori setup page for configuring Explori Sales Intelligence.</description>
     <formFactors>Small</formFactors>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
@@ -12,7 +13,7 @@
     <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Explori Admin</label>
     <navType>Standard</navType>
-    <tabs>exploriSetup</tabs>
+    <tabs>setup</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>Explori_Admin_UtilityBar</utilityBar>
+    <utilityBar>Admin_UtilityBar</utilityBar>
 </CustomApplication>

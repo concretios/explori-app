@@ -1,33 +1,48 @@
 /**
- * @description       : 
+ * @description       : Aura-enabled controller behind the Explori setup page; lets Explori administrators view and save the Explori Sales Intelligence configuration.
  * @author            : Mayank Singh
- * @group             : 
- * @last modified on  : 10-01-2026
+ * @group             :
+ * @last modified on  : 10-07-2026
  * @last modified by  : Mayank Singh
 **/
-public with sharing class ExploriSetupController {
+public with sharing class SetupController {
+    /**
+     * @description DTO returned to the setup LWC. Deliberately omits the Share ID so it
+     *              never reaches the client.
+     */
     public class SetupState {
         @AuraEnabled public Boolean configured;
         @AuraEnabled public String productId;
         @AuraEnabled public String organizationId;
     }
 
+    /**
+     * @description Returns the current Explori setup state for the admin page.
+     *              Requires the Explori_Manage_Config custom permission.
+     * @return The current SetupState (never includes the Share ID).
+     */
     @AuraEnabled(cacheable=true)
     public static SetupState getSetupState() {
         assertCanManageConfig();
         return currentState();
     }
 
+    /**
+     * @description Validates and saves the Explori configuration, then returns the
+     *              refreshed state. Requires the Explori_Manage_Config custom permission.
+     * @param shareId The Share ID to store.
+     * @param productId The Product ID to store (optional).
+     * @return The refreshed SetupState (never includes the Share ID).
+     */
     @AuraEnabled
     public static SetupState saveConfig(String shareId, String productId) {
         assertCanManageConfig();
         try {
-            ExploriConfigService.saveConfig(shareId, productId);
-        } catch (ExploriException ex) {
+            ConfigService.saveConfig(shareId, productId);
+        } catch (ConfigException ex) {
             throw handled(ex.getMessage());
         } catch (Exception ex) {
-            // Log the platform error for debugging while returning a safe message to the client.
-            System.debug(LoggingLevel.ERROR, 'Explori saveConfig failed: ' + ex.getMessage());
+            // Return a safe, generic message to the client without leaking platform details.
             throw handled('Unable to save Explori configuration.');
         }
         return currentState();
@@ -35,9 +50,8 @@ public with sharing class ExploriSetupController {
 
     private static SetupState currentState() {
         SetupState state = new SetupState();
-        state.configured = ExploriConfigService.hasShareId();
-        // Share ID is never returned to the client. Only the configured flag and non-sensitive product ID are exposed.
-        state.productId = ExploriConfigService.getProductId();
+        state.configured = ConfigService.hasShareId();
+        state.productId = ConfigService.getProductId();
         state.organizationId = UserInfo.getOrganizationId();
         return state;
     }

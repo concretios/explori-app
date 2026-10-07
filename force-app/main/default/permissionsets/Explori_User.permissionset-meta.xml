@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
-        <apexClass>ExploriCanvasLifecycleHandlerPost</apexClass>
+        <apexClass>CanvasLifecycleHandlerPost</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <description>Assign to users who open Explori on Account. Grants the Canvas handler and Account read access. Does not allow setup changes.</description>
+    <description>Assign to Explori Sales Intelligence users who open the Canvas app on an Account; grants the Canvas lifecycle handler and Account read access, with no setup access.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Explori User</label>
     <objectPermissions>
@@ -14,6 +14,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Account</object>
+        <viewAllFields>false</viewAllFields>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
 </PermissionSet>

@@ -3,7 +3,7 @@
  * Runs immediately before Salesforce signs the request.
  * Adds only custom parameters Explori does not already get from Canvas context.
  */
-global with sharing class ExploriCanvasLifecycleHandlerPost implements Canvas.CanvasLifecycleHandler {
+global with sharing class CanvasLifecycleHandlerPost implements Canvas.CanvasLifecycleHandler {
     
 	/*
      * 'global' is required by the Canvas.CanvasLifecycleHandler interface so
@@ -11,18 +11,29 @@ global with sharing class ExploriCanvasLifecycleHandlerPost implements Canvas.Ca
      * become part of the public API and cannot be changed or removed after release.
      * Keep global scope limited to the required interface methods.
      */
+
+     /**
+     * @description Canvas lifecycle callback listing the context types to exclude
+     *              from the signed request. Returns an empty set so all context is kept.
+     * @return Set of context types to exclude (none).
+     */
     global Set<Canvas.ContextTypeEnum> excludeContextTypes() {
         // Keep ORGANIZATION, USER, and RECORD_DETAIL in the signed request.
         return new Set<Canvas.ContextTypeEnum>();
     }
 
+    /**
+     * @description Runs before Salesforce signs the Canvas request. Validates configuration
+     *              and Account visibility, then sets only the four custom parameters.
+     * @param renderContext The Canvas render context supplied by the platform.
+     */
     global void onRender(Canvas.RenderContext renderContext) {
         if (renderContext == null || renderContext.getEnvironmentContext() == null) {
             throw new Canvas.CanvasRenderException('Explori canvas context is unavailable.');
         }
         Canvas.EnvironmentContext env = renderContext.getEnvironmentContext();
     
-        String shareId = ExploriConfigService.getShareId();
+        String shareId = ConfigService.getShareId();
         if (String.isBlank(shareId)) {
             throw new Canvas.CanvasRenderException(
                 'Explori is not configured. Ask an administrator to save a Share ID.'
@@ -41,15 +52,19 @@ global with sharing class ExploriCanvasLifecycleHandlerPost implements Canvas.Ca
             );
         }
     
+        /*
+         * Send only these four custom parameters. Everything else Explori needs
+         * (organization, user, record context) already travels in the signed Canvas
+         * request, so the signed payload is kept minimal and free of extra data.
+         */
         Map<String, Object> params = new Map<String, Object>{
             'shareId' => shareId,
-            'productId' => ExploriConfigService.getProductId(),
+            'productId' => ConfigService.getProductId(),
             'accountId' => account.Id,
             'accountName' => account.Name
         };
         env.setParametersAsJSON(JSON.serialize(params));
     }
-
     private static Map<String, Object> readExistingParameters(String json) {
         if (String.isBlank(json) || json == '{}') {
             return new Map<String, Object>();
@@ -59,11 +74,9 @@ global with sharing class ExploriCanvasLifecycleHandlerPost implements Canvas.Ca
                 (Map<String, Object>) System.JSON.deserializeUntyped(json);
             return parsed == null ? new Map<String, Object>() : parsed;
         } catch (JSONException e) {
-            System.debug(LoggingLevel.WARN, 'Explori: could not parse incoming canvas params: ' + e.getMessage());
             return new Map<String, Object>();
         }
     }
-
     private static String stringValue(Object value) {
         if (value == null) {
             return null;
@@ -71,11 +84,9 @@ global with sharing class ExploriCanvasLifecycleHandlerPost implements Canvas.Ca
         String text = String.valueOf(value);
         return String.isBlank(text) ? null : text;
     }
-
     private static String firstNonBlank(String first, String second) {
         return String.isNotBlank(first) ? first : second;
     }
-
     private static Account findVisibleAccount(String accountId) {
         if (String.isBlank(accountId)) {
             return null;
@@ -93,7 +104,6 @@ global with sharing class ExploriCanvasLifecycleHandlerPost implements Canvas.Ca
         } catch (System.StringException e) {
             return null; // not a valid Id → treat as no accessible account
         }
-
         /*
          * USER_MODE enforces the running user's sharing and field-level security.
          * This prevents Explori from opening an Account the current user cannot access.
