@@ -1,8 +1,10 @@
 /**
- * Canvas lifecycle handler for Explori Sales Intelligence.
- * Runs immediately before Salesforce signs the request.
- * Adds only custom parameters Explori does not already get from Canvas context.
- */
+ * @description       : Canvas lifecycle handler for Explori Sales Intelligence. Runs immediately before Salesforce signs the Canvas request: validates configuration and Account visibility, then injects only the four custom parameters.
+ * @author            : Mayank Singh
+ * @group             :
+ * @last modified on  : 10-07-2026
+ * @last modified by  : Mayank Singh
+**/
 global with sharing class CanvasLifecycleHandlerPost implements Canvas.CanvasLifecycleHandler {
     
 	/*

@@ -15,4 +15,8 @@
     <description>Assign to Explori administrators who configure Explori Sales Intelligence; grants the setup controller, tab, and app plus the Explori_Manage_Config custom permission.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Explori Admin</label>
+    <tabSettings>
+        <tab>setup</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
