@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Navigation tab that opens the Explori setup page for administrators who configure Explori Sales Intelligence.</description>
-    <label>Explori Setup</label>
-    <lwcComponent>setup</lwcComponent>
-    <motif>Custom33: Desk</motif>
-</CustomTab>
