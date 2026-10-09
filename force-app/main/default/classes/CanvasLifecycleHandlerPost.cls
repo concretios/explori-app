@@ -34,10 +34,11 @@ global with sharing class CanvasLifecycleHandlerPost implements Canvas.CanvasLif
         Canvas.EnvironmentContext env = renderContext.getEnvironmentContext();
 
         Map<String, Object> incoming = readExistingParameters(env.getParametersAsJSON());
-        String requestedId = firstNonBlank(
-            stringValue(incoming.get('accountId')),
-            stringValue(incoming.get('recordId'))
-        );
+        // Prefer the accountId key, fall back to recordId. containsKey keeps an absent
+        // key as null rather than the literal string 'null'.
+        String requestedId = incoming.containsKey('accountId')
+            ? String.valueOf(incoming.get('accountId'))
+            : (incoming.containsKey('recordId') ? String.valueOf(incoming.get('recordId')) : null);
         Account account = findVisibleAccount(requestedId);
         if (account == null) {
             throw new Canvas.CanvasRenderException('Sales Intelligence can only open on an Account you can access.');
@@ -57,14 +58,6 @@ global with sharing class CanvasLifecycleHandlerPost implements Canvas.CanvasLif
         } catch (JSONException e) {
             return new Map<String, Object>();
         }
-    }
-    private static String stringValue(Object value) {
-        if (value == null) { return null; }
-        String text = String.valueOf(value);
-        return String.isBlank(text) ? null : text;
-    }
-    private static String firstNonBlank(String first, String second) {
-        return String.isNotBlank(first) ? first : second;
     }
     private static Account findVisibleAccount(String accountId) {
         if (String.isBlank(accountId)) { return null; }
