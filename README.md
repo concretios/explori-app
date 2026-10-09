@@ -12,7 +12,7 @@ This is source for a future **2GP managed package**. Namespace is not registered
 | Setup UI | LWC `exploriSetup` + tab + `Explori Admin` app | Admin saves Share ID / Product ID |
 | Setup Apex | `ExploriSetupController` | LWC entry. Does not return Share ID |
 | Config | `ExploriConfigService` + List CS `Explori_Config_List__c` | Protected setting, dataset `Name=default` |
-| Account host | Aura `exploriAccountPanel` | Passes `{ recordId }` only |
+| Account host | Aura `SalesIntelligenceCanvas` | Passes `{ recordId }` only |
 | Lifecycle | `ExploriCanvasLifecycleHandlerPost` | Adds `shareId`, `productId`, `accountId`, `accountName` after a USER_MODE Account read |
 
 Canvas URL is the host path only, currently:
@@ -47,7 +47,7 @@ A sysadmin profile alone cannot save config. The user needs `Explori_Admin`.
 force-app/main/default/
   classes/                  Apex + tests (when added)
   lwc/exploriSetup/         Admin setup UI
-  aura/exploriAccountPanel/ Account Canvas host
+  aura/SalesIntelligenceCanvas/ Canvas host
   objects/Explori_Config_List__c/
   permissionsets/           Explori_User, Explori_Admin
   customPermissions/        Explori_Manage_Config
@@ -68,7 +68,7 @@ sfdx-project.json
 5. Open the **Explori Admin** app → **Explori Setup** and save Share ID (Product ID optional)
 6. Add **Explori Account Intelligence** to the Account Lightning page (App Builder, Account only)
 
-When a package namespace exists, set `namespacePrefix` on `force:canvasApp` in `exploriAccountPanel.cmp`. Leave it unset until then.
+When a package namespace exists, set `namespacePrefix` on `force:canvasApp` in `SalesIntelligenceCanvas.cmp`. Leave it unset until then.
 
 ## Common commands
 
