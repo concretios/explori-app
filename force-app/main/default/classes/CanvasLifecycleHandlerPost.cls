@@ -12,10 +12,21 @@ global with sharing class CanvasLifecycleHandlerPost implements Canvas.CanvasLif
     // 'global' is required: Canvas.CanvasLifecycleHandler is a global interface in the Canvas
     // system namespace (a public impl won't compile), and the managed package needs the
     // platform to invoke this handler across namespaces.
+
+    /**
+     * @description Canvas lifecycle callback listing the context types to exclude from the
+     *              signed request. Returns an empty set so all context is kept.
+     * @return Set of context types to exclude (none).
+     */
     global Set<Canvas.ContextTypeEnum> excludeContextTypes() {
         return new Set<Canvas.ContextTypeEnum>();
     }
 
+    /**
+     * @description Runs before Salesforce signs the Canvas request. Verifies the running user
+     *              can access the Account in USER_MODE, then sends only the Account name.
+     * @param renderContext The Canvas render context supplied by the platform.
+     */
     global void onRender(Canvas.RenderContext renderContext) {
         if (renderContext == null || renderContext.getEnvironmentContext() == null) {
             throw new Canvas.CanvasRenderException('Sales Intelligence canvas context is unavailable.');
